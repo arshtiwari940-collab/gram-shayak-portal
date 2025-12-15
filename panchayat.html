@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gram Shayak Portal</title>
+  <style>
+    /* ===== FLAG BACKGROUND ===== */
+    .flag-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: -1;
+      background: linear-gradient(
+        180deg,
+        #ff9933 0%,
+        #ff9933 33.33%,
+        #ffffff 33.33%,
+        #ffffff 66.66%,
+        #138808 66.66%,
+        #138808 100%
+      );
+      animation: waveMotion 5s ease-in-out infinite;
+      opacity: 0.85;
+      filter: brightness(1.05) saturate(1.1);
+    }
+
+    @keyframes waveMotion {
+      0%, 50%, 100% { transform: skewY(1deg) translateX(0px); }
+      25% { transform: skewY(-1deg) translateX(-10px); }
+      75% { transform: skewY(-1deg) translateX(10px); }
+    }
+
+    :root {
+      --primary: #0b6e4f;
+      --secondary: #f7f9f7;
+      --accent: #ffc107;
+    }
+
+    /* ===== GLOBAL STYLES ===== */
+    body {
+      margin: 0;
+      font-family: "Poppins", Arial, sans-serif;
+      background: var(--secondary);
+      color: #333;
+      line-height: 1.6;
+    }
+
+    h1, h2, h3 {
+      margin: 0;
+      font-weight: 600;
+    }
+
+    /* ===== HEADER ===== */
+    header {
+      background: linear-gradient(90deg, #0b6e4f, #148d69);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 15px 40px;
+      flex-wrap: wrap;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+
+    header .left {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    header img {
+      height: 55px;
+    }
+
+    header h1 {
+      font-size: 32px;
+      letter-spacing: 0.5px;
+    }
+
+    /* ===== NOTICE BAR ===== */
+    .notice {
+      background: #fff3cd;
+      color: #856404;
+      text-align: center;
+      padding: 12px;
+      font-weight: 500;
+      border-bottom: 1px solid #ffeeba;
+    }
+
+    /* ===== HERO SECTION ===== */
+    .hero {
+      background: url('https://cdn.pixabay.com/photo/2017/02/14/03/03/india-2066091_1280.jpg') center/cover no-repeat;
+      color: white;
+      text-align: center;
+      padding: 100px 20px;
+      position: relative;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.45);
+    }
+
+    .hero h2, .hero p {
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero h2 {
+      font-size: 40px;
+      margin-bottom: 10px;
+    }
+
+    .hero p {
+      font-size: 18px;
+    }
+
+    /* ===== SEARCH SECTION ===== */
+    .search-section {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      background: #fff;
+      margin: 30px auto;
+      padding: 20px;
+      max-width: 900px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+
+    .search-section input {
+      flex: 1;
+      min-width: 250px;
+      padding: 12px 15px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 15px;
+    }
+
+    .search-section button {
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      padding: 12px 25px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.3s;
+      font-size: 15px;
+    }
+
+    .search-section button:hover {
+      background: #148d69;
+    }
+
+    /* ===== SERVICE GRID ===== */
+    section h2 {
+      text-align: center;
+      color: var(--primary);
+      margin-top: 40px;
+      font-size: 28px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+      gap: 25px;
+      padding: 20px 40px;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .card {
+      background: white;
+      border-radius: 12px;
+      padding: 20px;
+      text-align: center;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.15);
+    }
+
+    .card h3 {
+      color: var(--primary);
+      margin-bottom: 10px;
+    }
+
+    .card p {
+      color: #555;
+      font-size: 14px;
+      min-height: 50px;
+      margin-bottom: 15px;
+    }
+
+    .card button {
+      background: var(--primary);
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .card button:hover {
+      background: #148d69;
+    }
+
+    /* ===== TRACKER SECTION ===== */
+    .tracker {
+      background: white;
+      padding: 25px;
+      border-radius: 12px;
+      margin: 40px auto;
+      max-width: 1000px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+    }
+
+    .tracker table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+
+    th, td {
+      padding: 12px;
+      border-bottom: 1px solid #ddd;
+      text-align: left;
+      font-size: 15px;
+    }
+
+    .status {
+      padding: 5px 10px;
+      border-radius: 8px;
+      color: white;
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    .pending { background: #ef4444; }
+    .progress { background: #f59e0b; }
+    .complete { background: #16a34a; }
+
+    /* ===== CONTACT ===== */
+    .contact {
+      background: #fff;
+      border-radius: 12px;
+      padding: 25px;
+      margin: 40px auto;
+      max-width: 1000px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+
+    .contact h3 {
+      color: var(--primary);
+      margin-bottom: 15px;
+    }
+
+    /* ===== FOOTER ===== */
+    footer {
+      background: var(--primary);
+      color: white;
+      text-align: center;
+      padding: 15px;
+      font-size: 14px;
+      letter-spacing: 0.3px;
+    }
+
+    @media (max-width: 600px) {
+      header h1 { font-size: 26px; }
+      .hero h2 { font-size: 30px; }
+      .search-section input { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <div class="flag-bg"></div>
+
+  <!-- HEADER -->
+  <header>
+    <div class="left">
+      <img src="ss.jpg" alt="Emblem">
+      <h1>Gram Shayak Portal</h1>
+    </div>
+  </header>
+
+  <!-- NOTICE -->
+  <div class="notice">📢 Latest Update: "Digital Village Week" – Register now for free training sessions on e-Governance services!</div>
+
+  <!-- HERO -->
+  <section class="hero">
+    <h2>Empowering Villages through Digital Governance 🇮🇳</h2>
+    <p>Access all Panchayat and Government services in one unified platform.</p>
+  </section>
+
+  <!-- SEARCH -->
+  <div class="search-section">
+    <input type="text" id="search" placeholder="Search for a service (e.g. Water, Health, Land)">
+    <button onclick="searchService()">🔍 Search</button>
+  </div>
+
+  <!-- SERVICES -->
+  <section>
+    <h2>Service Categories</h2>
+    <div class="grid" id="services"></div>
+  </section>
+
+  <!-- TRACKER -->
+  <section class="tracker">
+    <h2>📋 Application Tracker</h2>
+    <table>
+      <thead>
+        <tr><th>Service</th><th>Request ID</th><th>Date</th><th>Status</th></tr>
+      </thead>
+      <tbody id="trackTable">
+        <tr><td colspan="4" style="text-align:center;color:#777;">No applications yet.</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="contact">
+    <h3>📞 Contact & Helpdesk</h3>
+    <p><b>Village Panchayat Office:</b> Near Gram Bhavan, Block No. 4, District Office Complex</p>
+    <p><b>Helpline:</b> 1800-111-100 | <b>Email:</b> support@village.gov.in</p>
+    <p><b>Working Hours:</b> Monday to Friday, 9 AM – 5 PM</p>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>© 2025 Government of India | Designed by Anshika Upadhaya</footer>
+
+  <script>
+    const serviceData = [
+      { name: '💧 Water & Sanitation', desc: 'Apply for new connections or report maintenance issues.' },
+      { name: '🏥 Health & Wellness', desc: 'Access healthcare programs and vaccination drives.' },
+      { name: '🎓 Education & Scholarships', desc: 'Apply for student scholarships and learning support.' },
+      { name: '🏠 Housing & Land Records', desc: 'Request new land documents or property updates.' },
+      { name: '👷 Employment & Skill Development', desc: 'Find job programs and training opportunities.' },
+      { name: '📜 Citizen Certificates', desc: 'Apply for birth, death, income, or caste certificates.' },
+      { name: '🌾 Agricultural Support', desc: 'Apply for farming subsidies and insurance schemes.' },
+      { name: '🛣️ Infrastructure Requests', desc: 'Request road, streetlight, or community hall maintenance.' },
+      { name: '📢 Grievance Redressal', desc: 'File and track complaints with the Panchayat Office.' },
+      { name: '💡 Renewable Energy', desc: 'Apply for solar energy and biogas support schemes.' }
+    ];
+
+    const serviceGrid = document.getElementById('services');
+    const trackTable = document.getElementById('trackTable');
+
+    function loadServices(list) {
+      serviceGrid.innerHTML = "";
+      list.forEach(service => {
+        const card = document.createElement('div');
+        card.className = 'card';
+        card.innerHTML = `
+          <h3>${service.name}</h3>
+          <p>${service.desc}</p>
+          <button>Apply</button>
+        `;
+        card.querySelector('button').onclick = () => applyService(service.name);
+        serviceGrid.appendChild(card);
+      });
+    }
+
+    function applyService(serviceName) {
+      const id = 'REQ' + Math.floor(Math.random() * 90000 + 10000);
+      const date = new Date().toLocaleDateString();
+      const statuses = ['pending', 'progress', 'complete'];
+      const status = statuses[Math.floor(Math.random() * statuses.length)];
+      const label = status.charAt(0).toUpperCase() + status.slice(1);
+
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>${serviceName}</td>
+        <td>${id}</td>
+        <td>${date}</td>
+        <td><span class="status ${status}">${label}</span></td>
+      `;
+      if (trackTable.children[0].textContent.includes("No applications yet")) {
+        trackTable.innerHTML = "";
+      }
+      trackTable.appendChild(tr);
+      alert("✅ Application submitted successfully for: " + serviceName);
+    }
+
+    function searchService() {
+      const query = document.getElementById('search').value.toLowerCase();
+      const filtered = serviceData.filter(s => s.name.toLowerCase().includes(query) || s.desc.toLowerCase().includes(query));
+      loadServices(filtered.length ? filtered : serviceData);
+    }
+
+    loadServices(serviceData);
+  </script>
+</body>
+</html>

@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Government of India — Admin Login</title>
+  <meta name="description" content="Secure admin login for Government of India portal." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --gov-blue:#000080;
+      --gov-saffron:#FF9933;
+      --gov-green:#138808;
+      --muted:#6b7280;
+      --bg:#f6f8fb;
+      --card:#fff;
+      --radius:14px;
+      font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+    }
+    *{box-sizing:border-box;margin:0;padding:0}
+
+    body{
+      background: linear-gradient(135deg, var(--gov-saffron) 0%, #ffffff 50%, var(--gov-green) 100%);
+      background-attachment: fixed;
+      display:flex;align-items:center;justify-content:center;
+      min-height:100vh;
+      overflow-x:hidden;
+    }
+
+    .glass-card{
+      backdrop-filter: blur(14px) saturate(150%);
+      -webkit-backdrop-filter: blur(14px) saturate(150%);
+      background-color: rgba(255,255,255,0.75);
+      border-radius: var(--radius);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+      border:1px solid rgba(255,255,255,0.4);
+      max-width: 460px;
+      width: 95%;
+      padding: 40px;
+      animation: fadeIn 0.8s ease-in-out;
+    }
+
+    @keyframes fadeIn{
+      from{opacity:0;transform:translateY(20px)}
+      to{opacity:1;transform:translateY(0)}
+    }
+
+    .header{
+      text-align:center;
+      margin-bottom:28px;
+    }
+    .header .emblem{
+      font-size:40px;
+      background: linear-gradient(rgb(234, 102, 8),white,rgb(12, 225, 12));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      font-weight:800;
+    }
+    .header h1{
+      color:#000080;
+      font-size:22px;
+      font-weight:700;
+    }
+    .header p{
+      font-size:13px;color:var(--muted);
+    }
+
+    label{
+      font-weight:600;
+      font-size:13px;
+      margin-bottom:6px;
+      display:block;
+    }
+    input[type="text"],input[type="password"]{
+      width:100%;
+      padding:12px 14px;
+      border:1px solid rgba(0,0,0,0.1);
+      border-radius:8px;
+      font-size:14px;
+      margin-bottom:14px;
+      outline:none;
+      background:rgba(255,255,255,0.9);
+      transition:all 0.2s;
+    }
+    input:focus{
+      border-color:var(--gov-blue);
+      box-shadow:0 0 0 2px rgba(0,0,128,0.1);
+    }
+
+    .btn{
+      width:100%;
+      padding:12px;
+      border:none;
+      border-radius:8px;
+      background:linear-gradient(90deg, var(--gov-saffron), #ffffff, var(--gov-green));
+      color:#000080;
+      font-weight:700;
+      cursor:pointer;
+      transition: all 0.25s;
+      margin-top:10px;
+    }
+    .btn:hover{
+      transform:translateY(-2px);
+      box-shadow:0 4px 10px rgba(0,0,0,0.2);
+    }
+
+    .footer{
+      text-align:center;
+      font-size:12px;
+      margin-top:24px;
+      color:#333;
+      opacity:0.8;
+    }
+
+    .options{
+      display:flex;justify-content:space-between;align-items:center;margin-top:4px;font-size:13px;
+    }
+    .options a{
+      color:var(--gov-blue);text-decoration:none;font-weight:500;
+    }
+    .options a:hover{text-decoration:underline;}
+
+    .flag-bar{
+      height:6px;
+      width:100%;
+      border-radius:8px;
+      background: linear-gradient(90deg, var(--gov-saffron) 0%, #ffffff 50%, var(--gov-green) 100%);
+      margin-bottom:24px;
+    }
+  </style>
+</head>
+<body>
+  <div class="glass-card" role="main" aria-labelledby="heading">
+    <div class="flag-bar"></div>
+    <div class="header">
+      <div class="emblem">🇮🇳</div>
+      <h1 id="heading">Government of India Admin Login</h1>
+      <p>Secure access for authorised personnel only.</p>
+    </div>
+
+    <form id="loginForm" action="/admin/dashboard.html" method="POST">
+      <label for="adminId">Administrator ID</label>
+      <input type="text" id="adminId" name="adminId" placeholder="Enter your ID" required>
+
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" placeholder="Enter your password" required>
+
+      <div class="options">
+        <label><input type="checkbox" id="remember"> Remember me</label>
+        <a href="#">Forgot Password?</a>
+      </div>
+
+      <button type="submit" class="btn">Sign In</button>
+    </form>
+
+    <div class="footer">&copy; <span id="year"></span> Government of India | Designed by Arsh Tiwari.</div>
+  </div>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+    const form = document.getElementById('loginForm');
+    form.addEventListener('submit', (e) => {
+     const id = document.getElementById('adminId').value.trim();
+      const pwd = document.getElementById('password').value.trim();
+      if(!id || !pwd){
+        e.preventDefault();
+        alert('Please enter both Administrator ID and Password.');
+        return;
+      }
+      if(pwd.length < 8){
+        e.preventDefault();
+        alert('Password must be at least 8 characters long.');
+        return;
+      }
+      alert('Authenticating...');
+    });
+  </script>
+</body>
+</html>

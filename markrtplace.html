@@ -1,0 +1,672 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Gram Shayak Portal</title>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+      /* ------------------------------
+         🇮🇳 Flag-Themed Background
+      ------------------------------ */
+      .flag-bg {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        z-index: -1;
+        background: linear-gradient(
+          180deg,
+          #ff9933 0%,
+          #ff9933 33.33%,
+          #ffffff 33.33%,
+          #ffffff 66.66%,
+          #138808 66.66%,
+          #138808 100%
+        );
+        background-size: 100% 100%;
+        animation: waveMotion 5s ease-in-out infinite;
+        opacity: 0.85;
+        filter: brightness(1.05) saturate(1.1);
+      }
+
+      /* Realistic waving animation */
+      @keyframes waveMotion {
+        0% {
+          transform: skewY(1deg) translateX(0px) rotateZ(0deg);
+        }
+        25% {
+          transform: skewY(-1deg) translateX(-10px) rotateZ(-0.3deg);
+        }
+        50% {
+          transform: skewY(1deg) translateX(0px) rotateZ(0deg);
+        }
+        75% {
+          transform: skewY(-1deg) translateX(10px) rotateZ(0.3deg);
+        }
+        100% {
+          transform: skewY(1deg) translateX(0px) rotateZ(0deg);
+        }
+      }
+
+      /* ------------------------------
+         🎨 Theme & Core Styling
+      ------------------------------ */
+      :root {
+        --gov-saffron: #ff9933;
+        --gov-green: #138808;
+        --gov-blue: #0b4f6c;
+        --muted: #6b7280;
+      }
+
+      html.dark {
+        --bg: #071022;
+        --text: #dbeafe;
+      }
+
+      body {
+        font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, "Poppins",
+          sans-serif;
+        background: linear-gradient(180deg, #fbfdff, #f3f7fb);
+        color: #042a3e;
+      }
+
+      .gov-btn {
+        background: var(--gov-blue);
+        color: white;
+      }
+
+      .gov-accent {
+        color: var(--gov-green);
+      }
+
+      .chip {
+        background: #fff;
+        border: 1px solid rgba(2, 6, 23, 0.06);
+      }
+
+      .sr-only {
+        position: absolute;
+        left: -9999px;
+        top: auto;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+      }
+
+      .card {
+        background: white;
+        box-shadow: 0 6px 18px rgba(9, 30, 63, 0.06);
+        border-radius: 12px;
+      }
+
+      .contact {
+        padding: 20px;
+        margin: 20px;
+        border-radius: 10px;
+      }
+    </style>
+  </head>
+
+  <body class="antialiased">
+    <div class="flag-bg"></div>
+
+    <!-- ================================
+         🏛️ HEADER
+    ================================= -->
+    <header class="sticky top-0 z-50 bg-white border-b px-4 py-3">
+      <div class="max-w-6xl mx-auto flex items-center justify-between gap-4">
+        <div class="flex items-center gap-3">
+          <img
+            src="ss.jpg"
+            alt="Emblem"
+            class="w-10 h-10 opacity-80"
+          />
+          <div>
+            <div class="flex items-baseline gap-3">
+              <h1
+                class="text-lg font-semibold"
+                data-en="Gramin Bazzar"
+                data-hi="ग्रामीण बाज़ार"
+              >
+                Gramin Bazzar
+              </h1>
+              <small>Gram Shayak Portal</small>
+            </div>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-3">
+          <button
+            id="langBtn"
+            class="chip px-3 py-1 text-sm focus:outline-none"
+            aria-label="Toggle language"
+          >
+            हिंदी
+          </button>
+          <a
+            href="#market"
+            class="gov-btn px-4 py-2 rounded-md text-sm font-semibold hover:opacity-95"
+            >Explore Marketplace</a
+          >
+        </div>
+      </div>
+    </header>
+
+    <!-- ================================
+         🌾 HERO SECTION
+    ================================= -->
+    <section
+      id="hero"
+      class="max-w-6xl mx-auto px-4 py-10 grid lg:grid-cols-2 gap-8 items-center"
+    >
+      <div>
+        <div
+          class="inline-block px-3 py-1 rounded-full text-xs font-semibold"
+          style="background: var(--gov-saffron); color: white"
+          data-en="Official • Trusted"
+          data-hi="आधिकारिक • विश्वसनीय"
+        >
+          Official • Trusted
+        </div>
+
+        <h2
+          class="mt-4 text-3xl font-extrabold"
+          data-en="Making Village Commerce Digital & Simple"
+          data-hi="गांव का व्यापार डिजिटल और सरल बनाना"
+        >
+          Making Village Commerce Digital & Simple
+        </h2>
+
+        <p
+          class="mt-3 text-sm text-muted"
+          data-en="List products, get buyers, access schemes — with AI assistance for guidance."
+          data-hi="उत्पाद सूचीबद्ध करें, खरीदार पाएं, योजनाओं तक पहुँचें — मार्गदर्शन के लिए AI सहायता के साथ।"
+        >
+          List products, get buyers, access schemes — with AI assistance for
+          guidance.
+        </p>
+
+        <div class="mt-6 flex gap-3">
+          <a
+            href="#market"
+            class="gov-btn px-5 py-3 rounded-md text-sm font-semibold"
+            >Explore Marketplace</a
+          >
+          <button
+            id="onboard"
+            class="px-4 py-3 rounded-md border border-gray-200 text-sm"
+          >
+            Seller Onboarding
+          </button>
+        </div>
+
+        <div class="mt-6 grid grid-cols-3 gap-3 text-center">
+          <div class="card p-3">
+            <div class="font-semibold" data-en="Verified" data-hi="सत्यापित">
+              Verified
+            </div>
+            <div class="text-xs text-muted">Trusted sellers</div>
+          </div>
+
+          <div class="card p-3">
+            <div class="font-semibold" data-en="UPI Ready" data-hi="यूपीआई तैयार">
+              UPI Ready
+            </div>
+            <div class="text-xs text-muted">Secure payments</div>
+          </div>
+
+          <div class="card p-3">
+            <div
+              class="font-semibold"
+              data-en="Local Help"
+              data-hi="स्थानीय सहायता"
+            >
+              Local Help
+            </div>
+            <div class="text-xs text-muted">On-ground centres</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="relative">
+        <div class="card overflow-hidden">
+          <img
+            src="veg.jpg"
+            alt="village market"
+            class="w-full h-64 object-cover"
+          />
+        </div>
+        <button id="openChat" class=""></button>
+      </div>
+    </section>
+
+    <!-- ================================
+         🛒 MARKETPLACE
+    ================================= -->
+    <main
+      class="max-w-6xl mx-auto px-4 py-8 grid lg:grid-cols-4 gap-6"
+    >
+      <!-- MAIN MARKET AREA -->
+      <section id="market" class="lg:col-span-3 space-y-4">
+        <div class="flex items-center gap-3">
+          <input
+            id="searchInput"
+            type="search"
+            placeholder="Search products, villages or sellers..."
+            class="flex-1 p-3 rounded-md border focus:ring-2 focus:ring-opacity-50 focus:ring-green-300"
+            aria-label="Search"
+          />
+          <select id="category" class="p-3 rounded-md border">
+            <option value="all">All categories</option>
+            <option>Agriculture</option>
+            <option>Handicrafts</option>
+            <option>Textiles</option>
+            <option>Food</option>
+          </select>
+          <button
+            id="voiceBtn"
+            title="Voice search"
+            class="p-3 rounded-md border"
+            aria-label="Voice search"
+          >
+            🎤
+          </button>
+        </div>
+
+        <div
+          id="suggestions"
+          class="p-3 bg-white rounded-md border text-sm text-muted hidden"
+        ></div>
+
+        <div
+          id="productGrid"
+          class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4"
+        >
+          <!-- cards injected by JS -->
+        </div>
+
+        <div class="text-center mt-4">
+          <button id="loadMore" class="px-5 py-2 rounded-md border">
+            Load more
+          </button>
+        </div>
+      </section>
+
+      <!-- SIDEBAR -->
+      <aside class="space-y-4">
+        <!-- AI Assistant Preview -->
+        <div class="card p-4">
+          <div class="flex items-center justify-between">
+            <h4
+              class="font-semibold"
+              data-en="Smart Assistant"
+              data-hi="स्मार्ट असिस्टेंट"
+            >
+              Smart Assistant
+            </h4>
+            <span class="text-xs text-muted" data-en="Demo" data-hi="डेमो"
+              >Demo</span
+            >
+          </div>
+          <p
+            class="text-sm text-muted mt-2"
+            data-en="Get quick answers, step-by-step onboarding help, and scheme suggestions."
+            data-hi="त्वरित उत्तर, ऑनबोर्डिंग सहायता और योजना सुझाव प्राप्त करें।"
+          >
+            Get quick answers, step-by-step onboarding help, and scheme
+            suggestions.
+          </p>
+          <div class="mt-3 flex gap-2">
+            <button
+              id="quickHelp"
+              class="flex-1 px-3 py-2 rounded-md border text-sm"
+            >
+              How to sell
+            </button>
+            <button
+              id="findScheme"
+              class="flex-1 px-3 py-2 rounded-md border text-sm"
+            >
+              Find Scheme
+            </button>
+          </div>
+        </div>
+
+        <!-- Scheme Finder -->
+        <div id="schemeCard" class="card p-4" aria-live="polite">
+          <h5
+            class="font-semibold"
+            data-en="Scheme Finder"
+            data-hi="योजना खोजक"
+          >
+            Scheme Finder
+          </h5>
+          <p
+            class="text-xs text-muted mt-1"
+            data-en="Answer two quick questions to see suited schemes."
+            data-hi="दो सवालों के जवाब दें और उपयुक्त योजनाएँ देखें।"
+          >
+            Answer two quick questions to see suited schemes.
+          </p>
+          <div id="schemeForm" class="mt-3 space-y-2">
+            <select id="occupation" class="w-full p-2 rounded-md border">
+              <option value="">Select occupation</option>
+              <option value="farmer" data-en="Farmer" data-hi="किसान">
+                Farmer
+              </option>
+              <option value="artisan" data-en="Artisan" data-hi="कारीगर">
+                Artisan
+              </option>
+              <option
+                value="shop"
+                data-en="Shop/Shopkeeper"
+                data-hi="दुकानदार"
+              >
+                Shop/Shopkeeper
+              </option>
+            </select>
+            <select id="annualTurnover" class="w-full p-2 rounded-md border">
+              <option value="">Annual turnover</option>
+              <option value="low">Under ₹5 lakh</option>
+              <option value="mid">₹5–20 lakh</option>
+              <option value="high">Above ₹20 lakh</option>
+            </select>
+            <button
+              id="getSchemes"
+              class="w-full px-3 py-2 rounded-md gov-btn"
+            >
+              Show schemes
+            </button>
+          </div>
+
+          <div
+            id="schemeResult"
+            class="mt-3 text-sm text-muted hidden"
+          ></div>
+        </div>
+      </aside>
+    </main>
+    <footer class="mt-8 bg-gray-50 border-t py-6">
+      <div class="max-w-6xl mx-auto px-4 text-sm text-muted">
+        <div class="flex flex-col md:flex-row justify-between">
+          <div>
+            © <span id="year"></span> Government of India — Gramin Bazzar
+          </div>
+
+          <section class="contact">
+            <h3>📞 Contact & Helpdesk</h3>
+            <p>
+              <b>Village Panchayat Office:</b> Near Gram Bhavan, Block No. 4,
+              District Office Complex
+            </p>
+            <p>
+              <b>Helpline:</b> 1800-111-100 | <b>Email:</b>
+              support@village.gov.in
+            </p>
+            <p><b>Working Hours:</b> Monday to Friday, 9 AM – 5 PM</p>
+          </section>
+
+          <div class="mt-2 md:mt-0">
+            Designed for villages by Gaurvendra Tripathi
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- ================================
+         💬 CHAT MODAL
+    ================================= -->
+    <div
+      id="chatModal"
+      class="fixed inset-0 z-50 flex items-end md:items-center justify-center p-4 hidden"
+    >
+      <div class="absolute inset-0 bg-black/40" id="chatBackdrop"></div>
+      <div class="relative w-full max-w-lg card p-4 z-10">
+        <div class="flex items-start justify-between gap-3">
+          <h4 class="font-semibold">AI Assistant</h4>
+          <button id="closeChat" class="px-2 py-1 rounded-md border">
+            Close
+          </button>
+        </div>
+
+        <div
+          id="chatLog"
+          class="mt-3 h-60 overflow-auto p-3 bg-gray-50 rounded-md text-sm space-y-3"
+        >
+          <div class="text-xs text-muted">
+            Hi! Ask me how to list a product, find schemes, or get selling tips.
+          </div>
+        </div>
+
+        <div class="mt-3 flex gap-2">
+          <input
+            id="chatInput"
+            class="flex-1 p-2 rounded-md border"
+            placeholder="Type your question (e.g., How to sell turmeric?)"
+          />
+          <button id="sendChat" class="px-3 py-2 rounded-md gov-btn">
+            Send
+          </button>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
+
+  <!-- Simple scripts: product demo, AI mocks, language, theme, voice -->
+  <script>
+    // --- constants & sample data ---
+    const PRODUCTS = [
+      {id:1, title:'Organic Turmeric (1kg)', cat:'Agriculture', price:'₹180', seller:'Kisan Samooh, MP', img:'tru.jpg'},
+      {id:2, title:'Handloom Saree', cat:'Textiles', price:'₹1,200', seller:'Weavers, WB', img:'saree.jpg'},
+      {id:3, title:'Jute Bag - Handmade', cat:'Handicrafts', price:'₹350', seller:'SHG, Odisha', img:'bag.jpg'},
+      {id:4, title:'Organic Millet (5kg)', cat:'Agriculture', price:'₹600', seller:'Grain Co-op, Rajasthan', img:'millets.jpg'}
+    ];
+
+    // --- render products ---
+    const productGrid = document.getElementById('productGrid');
+    function renderProducts(list=PRODUCTS){
+      productGrid.innerHTML = '';
+      list.forEach(p=>{
+        const el = document.createElement('article');
+        el.className = 'card overflow-hidden';
+        el.innerHTML = `
+          <img src="${p.img}" alt="${p.title}" class="w-full h-40 object-cover">
+          <div class="p-3">
+            <h5 class="font-semibold text-sm">${p.title}</h5>
+            <div class="text-xs text-muted">${p.seller} • ${p.cat}</div>
+            <div class="mt-2 flex items-center justify-between">
+              <div class="font-bold text-sm text-green-600">${p.price}</div>
+              <button class="px-3 py-1 rounded-md border buyBtn text-sm">Buy</button>
+            </div>
+          </div>
+        `;
+        productGrid.appendChild(el);
+      });
+    }
+    renderProducts();
+
+    // --- search + simple recommender/autocomplete ---
+    const searchInput = document.getElementById('searchInput');
+    const suggestions = document.getElementById('suggestions');
+    searchInput.addEventListener('input', (e)=>{
+      const q = e.target.value.trim().toLowerCase();
+      if(!q){ suggestions.classList.add('hidden'); renderProducts(); return; }
+      // simple suggestions from product titles and categories
+      const matches = PRODUCTS.filter(p => p.title.toLowerCase().includes(q) || p.cat.toLowerCase().includes(q) || p.seller.toLowerCase().includes(q));
+      if(matches.length){
+        suggestions.innerHTML = matches.slice(0,5).map(m => `<div class="py-1 hover:bg-gray-50 cursor-pointer px-2">${m.title} — ${m.seller}</div>`).join('');
+        suggestions.classList.remove('hidden');
+        renderProducts(matches);
+      } else {
+        suggestions.innerHTML = `<div class="py-1 px-2 text-xs">No direct matches. Try 'farm', 'handloom', or 'jute'.</div>`;
+        suggestions.classList.remove('hidden');
+        renderProducts([]);
+      }
+    });
+
+    // suggestion click
+    suggestions.addEventListener('click', (ev)=>{
+      const text = ev.target.textContent;
+      if(!text) return;
+      searchInput.value = text.split(' — ')[0];
+      suggestions.classList.add('hidden');
+    });
+
+    // voice search (Web Speech API - optional)
+    const voiceBtn = document.getElementById('voiceBtn');
+    let recognizing = false;
+    let recognition;
+    if('webkitSpeechRecognition' in window || 'SpeechRecognition' in window){
+      const Impl = window.SpeechRecognition || window.webkitSpeechRecognition;
+      recognition = new Impl();
+      recognition.lang = 'en-IN';
+      recognition.interimResults = false;
+      recognition.onresult = (e) => {
+        const txt = e.results[0][0].transcript;
+        searchInput.value = txt;
+        searchInput.dispatchEvent(new Event('input'));
+      };
+      recognition.onend = () => { recognizing = false; voiceBtn.textContent = '🎤'; };
+    } else {
+      recognition = null;
+      voiceBtn.title = 'Voice not supported';
+    }
+    voiceBtn.addEventListener('click', () => {
+      if(!recognition){ alert('Voice not supported in this browser.'); return; }
+      if(recognizing){ recognition.stop(); recognizing=false; voiceBtn.textContent='🎤'; }
+      else { recognition.start(); recognizing=true; voiceBtn.textContent='🛑'; }
+    });
+
+    // --- simple buy button handler (demo) ---
+    productGrid.addEventListener('click', (e)=>{
+      if(e.target.classList.contains('buyBtn')){
+        const title = e.target.closest('article').querySelector('h5').textContent;
+        alert('Checkout demo for: ' + title + '\\n(UPI / payment integration requires backend.)');
+      }
+    });
+
+    // --- scheme finder logic (mock AI) ---
+    const getSchemesBtn = document.getElementById('getSchemes');
+    const schemeResult = document.getElementById('schemeResult');
+    getSchemesBtn.addEventListener('click', ()=>{
+      const occ = document.getElementById('occupation').value;
+      const turnover = document.getElementById('annualTurnover').value;
+      schemeResult.classList.remove('hidden');
+      if(!occ || !turnover){ schemeResult.innerHTML = '<div class="text-sm text-red-600">Please select occupation and turnover.</div>'; return; }
+      // mock matching rules
+      const matches = [];
+      if(occ === 'farmer') matches.push('PM Kisan (Farmer support)');
+      if(occ === 'artisan') matches.push('PMEGP (Support for artisans)');
+      if(occ === 'shop') matches.push('MSME scheme (Credit & support)');
+      if(turnover === 'low' && occ !== '') matches.push('Local SHG Grants and Training');
+      schemeResult.innerHTML = '<div class="text-sm text-green-700 font-semibold">Suggested schemes:</div><ul class="mt-2 text-sm list-disc ml-5">'+ matches.map(s=>'<li>'+s+'</li>').join('') +'</ul>';
+    });
+
+    // --- Smart Assistant (mock AI chat) ---
+    const chatModal = document.getElementById('chatModal');
+    const chatBackdrop = document.getElementById('chatBackdrop');
+    const openChatBtn = document.getElementById('openChat');
+    const closeChatBtn = document.getElementById('closeChat');
+    const chatLog = document.getElementById('chatLog');
+    const chatInput = document.getElementById('chatInput');
+    const sendChat = document.getElementById('sendChat');
+
+    function appendChat(msg, who='bot'){
+      const div = document.createElement('div');
+      div.className = who === 'bot' ? 'text-sm bg-gray-50 p-2 rounded' : 'text-sm bg-blue-50 p-2 rounded self-end';
+      div.textContent = msg;
+      chatLog.appendChild(div);
+      chatLog.scrollTop = chatLog.scrollHeight;
+    }
+
+    openChatBtn.addEventListener('click', ()=>{ chatModal.classList.remove('hidden'); chatInput.focus(); });
+    closeChatBtn.addEventListener('click', ()=>{ chatModal.classList.add('hidden'); });
+    chatBackdrop.addEventListener('click', ()=> chatModal.classList.add('hidden'));
+
+    function botReply(userTxt){
+      const q = userTxt.toLowerCase();
+      // simple rule-based replies
+      if(q.includes('sell') || q.includes('how to sell') || q.includes('list')){
+        return 'Step 1: Register as a seller → Step 2: Create product listing with photos and price → Step 3: Accept orders via UPI. Need help with registration?';
+      }
+      if(q.includes('scheme') || q.includes('subsidy') || q.includes('pmegp') || q.includes('pm kisan')){
+        return 'Tell me your occupation (farmer/artisan/shop) and I will suggest relevant schemes.';
+      }
+      if(q.includes('price') || q.includes('cost')){
+        return 'You can set competitive prices by checking similar local products. Try searching similar items in the Marketplace.';
+      }
+      // fallback helpful reply
+      return 'I can help with: seller onboarding, schemes, or product listing tips. Try: "How to sell turmeric?" or "Which scheme for artisan?"';
+    }
+
+    sendChat.addEventListener('click', ()=>{
+      const txt = chatInput.value.trim(); if(!txt) return;
+      appendChat(txt, 'user');
+      chatInput.value = '';
+      appendChat('Typing...', 'bot');
+      // simulate thinking
+      setTimeout(()=>{
+        chatLog.lastChild.remove(); // remove 'Typing...'
+        appendChat(botReply(txt), 'bot');
+      }, 650);
+    });
+
+    chatInput.addEventListener('keydown', (e)=>{
+      if(e.key === 'Enter'){ sendChat.click(); e.preventDefault(); }
+    });
+
+    // quick helper btns
+    document.getElementById('quickHelp').addEventListener('click', ()=>{ openChatBtn.click(); appendChat('How to list a product?', 'user'); setTimeout(()=>{ appendChat(botReply('how to list a product?')); }, 500); });
+    document.getElementById('findScheme').addEventListener('click', ()=>{ document.getElementById('occupation').focus(); });
+
+    // --- language toggle (EN/HI) ---
+    const langBtn = document.getElementById('langBtn');
+    let curLang = localStorage.getItem('gov-lang') || 'en';
+    function applyLang(l){
+      document.querySelectorAll('[data-en]').forEach(el=>{
+        const en = el.getAttribute('data-en'); const hi = el.getAttribute('data-hi') || en;
+        el.textContent = (l === 'en') ? en : hi;
+      });
+      // also update select option texts (occupation options)
+      document.querySelectorAll('#occupation option').forEach(opt=>{
+        if(opt.dataset && opt.dataset.en){ /* handled by attributes if present */ }
+      });
+      langBtn.textContent = (l === 'en') ? 'हिंदी' : 'English';
+      localStorage.setItem('gov-lang', l);
+    }
+    applyLang(curLang);
+    langBtn.addEventListener('click', ()=>{ curLang = (curLang==='en') ? 'hi' : 'en'; applyLang(curLang); });
+
+    // --- theme toggle (light/dark) ---
+    const themeBtn = document.getElementById('themeBtn');
+    let dark = localStorage.getItem('gov-theme') === 'dark';
+    function applyTheme(d){
+      if(d) document.documentElement.classList.add('dark'); else document.documentElement.classList.remove('dark');
+      themeBtn.textContent = d ? 'Light' : 'Dark';
+      localStorage.setItem('gov-theme', d ? 'dark' : 'light');
+    }
+    applyTheme(dark);
+    themeBtn.addEventListener('click', ()=>{ dark = !dark; applyTheme(dark); });
+
+    // --- support / onboarding demo ---
+    document.getElementById('onboard').addEventListener('click', ()=> alert('To register as a seller: Visit your nearest Gram Seva Kendra or call 1800-123-456. (Demo)'));
+
+    // --- small extras ---
+    document.getElementById('year').textContent = new Date().getFullYear?.() || new Date().getFullYear();
+    // accessibility: close suggestion on outside click
+    document.addEventListener('click', (e)=>{ if(!suggestions.contains(e.target) && e.target !== searchInput) suggestions.classList.add('hidden'); });
+
+    // load more demo
+    document.getElementById('loadMore').addEventListener('click', ()=> alert('Load more products — requires backend.'));
+
+    // initial small greeting in chat
+    setTimeout(()=>{ appendChat('Hello! I am Bharat AI. Ask me about selling, schemes, or how to onboard.'); }, 600);
+  </script>
+</body>
+</html>

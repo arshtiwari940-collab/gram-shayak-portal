@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Gram Shayak Portal</title>
+
+<!-- Fonts & Icons -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+/* 🇮🇳 Background Flag Animation */
+.flag-bg {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(
+    180deg,
+    #ff9933 0%,
+    #ff9933 33.33%,
+    #ffffff 33.33%,
+    #ffffff 66.66%,
+    #138808 66.66%,
+    #138808 100%
+  );
+  animation: waveMotion 5s ease-in-out infinite;
+  opacity: 0.9;
+  filter: brightness(1.05) saturate(1.1);
+}
+
+@keyframes waveMotion {
+  0%, 100% { transform: skewY(1deg) translateX(0); }
+  25% { transform: skewY(-1deg) translateX(-10px); }
+  50% { transform: skewY(1deg) translateX(0); }
+  75% { transform: skewY(-1deg) translateX(10px); }
+}
+
+/* Root Colors */
+:root {
+  --saffron: #FF9933;
+  --white: #FFFFFF;
+  --green: #138808;
+  --navy: #001f3f;
+  --text-dark: #1E272E;
+  --bg-light: #f5f9f6;
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  margin: 0;
+  background: var(--bg-light);
+  color: var(--text-dark);
+}
+
+/* ===== HEADER ===== */
+header {
+  background: linear-gradient(90deg, var(--saffron), var(--white), var(--green));
+  color: var(--navy);
+  text-align: center;
+  padding: 1.2rem 0;
+  font-size: 2rem;
+  font-weight: 700;
+  border-bottom: 3px solid var(--navy);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+/* ===== NAVBAR ===== */
+nav {
+  background: var(--navy);
+  color: var(--white);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 0.8rem;
+  padding: 1rem;
+}
+
+nav button, #voiceBtn, #langToggle {
+  background: transparent;
+  border: 1px solid var(--white);
+  color: var(--white);
+  padding: 0.5rem 1rem;
+  border-radius: 25px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  font-weight: 600;
+}
+nav button:hover, #voiceBtn:hover, #langToggle:hover {
+  background: var(--white);
+  color: var(--navy);
+}
+#searchBar {
+  padding: 0.6rem 1rem;
+  border-radius: 25px;
+  border: 1px solid var(--white);
+  background: transparent;
+  color: var(--white);
+  width: 250px;
+  text-align: center;
+}
+
+/* ===== CONTAINER ===== */
+.container {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+/* ===== DASHBOARD ===== */
+.dashboard {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+.stats {
+  background: #ffffff;
+  border-left: 6px solid var(--green);
+  border-radius: 10px;
+  padding: 1rem 2rem;
+  min-width: 250px;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+.stats h2 {
+  color: var(--navy);
+  margin: 0.2rem 0;
+}
+.stats p {
+  color: var(--text-dark);
+  margin: 0;
+}
+
+/* ===== SCHEME CARDS ===== */
+.scheme-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 1.5rem;
+  margin-top: 1rem;
+}
+.scheme-card {
+  background: #ffffff;
+  border-left: 5px solid var(--saffron);
+  border-radius: 10px;
+  padding: 1rem 1.5rem;
+  transition: transform 0.3s, box-shadow 0.3s;
+  text-align: left;
+}
+.scheme-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+}
+.scheme-card h3 {
+  color: var(--green);
+  margin-top: 0;
+}
+
+/* ===== ELIGIBILITY CHECKER ===== */
+.eligibility-checker {
+  background: #ffffff;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  margin-top: 3rem;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+.eligibility-checker input {
+  width: 100%;
+  padding: 0.7rem;
+  margin-bottom: 0.8rem;
+  border-radius: 6px;
+  border: 1px solid var(--navy);
+}
+.eligibility-checker button {
+  background: var(--navy);
+  color: var(--white);
+  border: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+.eligibility-checker button:hover {
+  background: var(--green);
+}
+
+/* ===== CONTACT ===== */
+.contact {
+  background: #ffffffcc;
+  border-radius: 10px;
+  padding: 2rem;
+  margin: 2rem auto;
+  max-width: 800px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+}
+.contact h3 {
+  margin-top: 0;
+  color: var(--navy);
+}
+
+/* ===== FOOTER ===== */
+footer {
+  background: var(--navy);
+  color: var(--white);
+  text-align: center;
+  padding: 1rem;
+  font-size: 0.95rem;
+  margin-top: 3rem;
+}
+
+/* ===== AI ASSISTANT ===== */
+#assistant {
+  position: fixed;
+  bottom: 90px;
+  right: 20px;
+  background: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.3);
+  width: 260px;
+  padding: 1rem;
+  display: none;
+}
+#assistant textarea {
+  width: 100%;
+  padding: 0.6rem;
+  border-radius: 6px;
+  border: 1px solid var(--navy);
+  resize: none;
+}
+#assistant button {
+  margin-top: 0.5rem;
+  width: 100%;
+  background: var(--green);
+  border: none;
+  padding: 0.6rem;
+  border-radius: 6px;
+  color: #fff;
+  font-weight: bold;
+  cursor: pointer;
+}
+#chatBtn {
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+  background: var(--green);
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  padding: 1rem;
+  font-size: 1.4rem;
+  cursor: pointer;
+  box-shadow: 0 0 10px var(--green);
+}
+</style>
+</head>
+
+<body>
+<div class="flag-bg"></div>
+
+<header id="portalTitle"> Gram Shayak Portal</header>
+
+<nav>
+  <button onclick="filterSchemes('all')" data-en="All" data-hi="सभी">All</button>
+  <button onclick="filterSchemes('agriculture')" data-en="Agriculture" data-hi="कृषि">Agriculture</button>
+  <button onclick="filterSchemes('health')" data-en="Health" data-hi="स्वास्थ्य">Health</button>
+  <button onclick="filterSchemes('education')" data-en="Education" data-hi="शिक्षा">Education</button>
+  <input type="text" id="searchBar" placeholder="🔍 Search schemes..." onkeyup="searchSchemes()">
+  <button id="voiceBtn"><i class="fa-solid fa-microphone"></i></button>
+  <button id="langToggle" onclick="toggleLanguage()">हिन्दी / English</button>
+</nav>
+
+<div class="container">
+  <div class="dashboard">
+    <div class="stats"><h2>120+</h2><p data-en="Active Schemes" data-hi="सक्रिय योजनाएं">Active Schemes</p></div>
+    <div class="stats"><h2>5M+</h2><p data-en="Beneficiaries" data-hi="लाभार्थी">Beneficiaries</p></div>
+    <div class="stats"><h2>₹2000Cr+</h2><p data-en="Funds Distributed" data-hi="वितरित निधि">Funds Distributed</p></div>
+  </div>
+
+  <h2 style="text-align:center;" data-en="Available Schemes" data-hi="उपलब्ध योजनाएं">Available Schemes</h2>
+
+  <div class="scheme-list" id="schemeList">
+    <div class="scheme-card" data-category="agriculture" data-name="Krishi Samridhi Yojana">
+      <h3 data-en="🌱 Krishi Samridhi Yojana" data-hi="🌱 कृषि समृद्धि योजना">🌱 Krishi Samridhi Yojana</h3>
+      <p data-en="AI-powered crop yield prediction and fertilizer subsidies."
+         data-hi="एआई आधारित फसल उपज भविष्यवाणी और उर्वरक सब्सिडी।"></p>
+    </div>
+
+    <div class="scheme-card" data-category="health" data-name="Arogya Suraksha">
+      <h3 data-en="🏥 Arogya Suraksha" data-hi="🏥 आरोग्य सुरक्षा">🏥 Arogya Suraksha</h3>
+      <p data-en="Smart health insurance integrated with digital health IDs."
+         data-hi="डिजिटल स्वास्थ्य आईडी के साथ एकीकृत स्मार्ट स्वास्थ्य बीमा।"></p>
+    </div>
+
+    <div class="scheme-card" data-category="education" data-name="Shiksha Udaan">
+      <h3 data-en="🎓 Shiksha Udaan" data-hi="🎓 शिक्षा उड़ान">🎓 Shiksha Udaan</h3>
+      <p data-en="Digital learning scholarships for rural students."
+         data-hi="ग्रामीण छात्रों के लिए डिजिटल लर्निंग छात्रवृत्तियाँ।"></p>
+    </div>
+  </div>
+
+  <div class="eligibility-checker">
+    <h3 data-en="Check Your Eligibility" data-hi="अपनी पात्रता जांचें">Check Your Eligibility</h3>
+    <input type="text" id="aadhaar" placeholder="Enter Aadhaar Number">
+    <input type="number" id="income" placeholder="Annual Income (₹)">
+    <input type="text" id="district" placeholder="Enter District">
+    <button onclick="checkEligibility()">Check</button>
+    <p id="eligibilityResult"></p>
+  </div>
+</div>
+
+<section class="contact">
+  <h3>📞 Contact & Helpdesk</h3>
+  <p><b>Village Panchayat Office:</b> Near Gram Bhavan, Block No. 4, District Office Complex</p>
+  <p><b>Helpline:</b> 1800-111-100 | <b>Email:</b> support@village.gov.in</p>
+  <p><b>Working Hours:</b> Monday to Friday, 9 AM – 5 PM</p>
+</section>
+
+<footer id="footerText">© 2025 ग्राम योजना पोर्टल भारत सरकार — अंशिका उपाध्याय द्वारा बनाया गया</footer>
+
+<!-- AI Assistant -->
+<button id="chatBtn" onclick="toggleChat()"><i class="fa-solid fa-robot"></i></button>
+<div id="assistant">
+  <h4>🤖 Gram AI Assistant</h4>
+  <textarea id="query" rows="2" placeholder="Ask about any scheme..."></textarea>
+  <button onclick="chatReply()">Ask</button>
+  <p id="reply"></p>
+</div>
+
+<script>
+function filterSchemes(cat){
+  document.querySelectorAll('.scheme-card').forEach(c=>{
+    c.style.display=(cat==='all'||c.dataset.category===cat)?'block':'none';
+  });
+}
+function searchSchemes(){
+  const input=document.getElementById('searchBar').value.toLowerCase();
+  document.querySelectorAll('.scheme-card').forEach(c=>{
+    c.style.display=c.dataset.name.toLowerCase().includes(input)?'block':'none';
+  });
+}
+function toggleChat(){
+  const chat=document.getElementById("assistant");
+  chat.style.display=chat.style.display==="block"?"none":"block";
+}
+function chatReply(){
+  const q=document.getElementById("query").value.toLowerCase();
+  const reply=document.getElementById("reply");
+  if(q.includes("health")) reply.innerHTML="💬 'Arogya Suraksha' offers free rural health insurance.";
+  else if(q.includes("education")) reply.innerHTML="💬 'Shiksha Udaan' gives rural student scholarships.";
+  else if(q.includes("agriculture")) reply.innerHTML="💬 'Krishi Samridhi Yojana' provides AI crop support.";
+  else reply.innerHTML="💬 Please specify the category (agriculture/health/education).";
+}
+/* Voice Search */
+document.getElementById("voiceBtn").onclick=()=>{
+  const recognition=new(window.SpeechRecognition||window.webkitSpeechRecognition)();
+  recognition.start();
+  recognition.onresult=e=>{
+    document.getElementById("searchBar").value=e.results[0][0].transcript;
+    searchSchemes();
+  };
+};
+/* Language Toggle */
+let currentLang="en";
+function toggleLanguage(){
+  currentLang = currentLang === "en" ? "hi" : "en";
+  document.querySelectorAll("[data-en]").forEach(el=>{
+    el.innerHTML = currentLang === "en" ? el.dataset.en : el.dataset.hi;
+  });
+  document.getElementById("portalTitle").textContent = 
+    currentLang === "en" ? "🌾 Gram Yojana Portal" : "🌾 ग्राम योजना पोर्टल";
+  document.getElementById("footerText").textContent = 
+    currentLang === "en" ? "© 2025 Gram Yojana Portal | Govt. of India — Made by Anshika Upadhaya"
+                         : "© 2025 ग्राम योजना पोर्टल | भारत सरकार — अंशिका उपाध्याय द्वारा बनाया गया";
+}
+</script>
+</body>
+</html>

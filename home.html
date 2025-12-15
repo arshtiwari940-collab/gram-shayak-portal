@@ -1,0 +1,656 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gram Shayak Portal</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Segoe UI", sans-serif;
+    }
+
+    body {
+      background: #f5f5f0;
+      color: #333;
+    }
+
+    header {
+      background: #fff;
+      padding: 15px 5%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    header .left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    header img {
+      width: 50px;
+      height: 50px;
+    }
+
+    header h1 {
+      font-size: 20px;
+      color: #065f46;
+    }
+
+    .right {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .login-btn,
+    .btn {
+      background: #065f46;
+      color: #fff;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .login-btn:hover,
+    .btn:hover {
+      background: #047857;
+    }
+
+    /* Hero section */
+    .hero {
+      position: relative;
+      height: 500px;
+      width: 100%;
+      overflow: hidden;
+    }
+
+    #map {
+      height: 100%;
+      width: 100%;
+      z-index: 1;
+    }
+
+    .hero-content {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+      color: #fff;
+      z-index: 10;
+      background: rgba(0, 0, 0, 0.55);
+      padding: 20px 40px;
+      border-radius: 12px;
+      width: 90%;
+      max-width: 800px;
+      transition: opacity 0.8s ease, transform 0.6s ease;
+    }
+
+    .hero-content h2 {
+      font-size: 30px;
+      margin-bottom: 10px;
+    }
+
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+      margin-top: 15px;
+    }
+
+    select {
+      padding: 8px;
+      border-radius: 6px;
+      border: none;
+      outline: none;
+      font-size: 15px;
+    }
+
+    /* Section */
+    .section {
+      padding: 40px 5%;
+    }
+
+    .services {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.5rem;
+      padding: 2rem;
+    }
+
+    .card {
+      background: white;
+      border-radius: 1rem;
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      padding: 1.5rem;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .card a {
+      text-decoration: none;
+      font-weight: 600;
+      color: #1b5e20;
+      display: block;
+      margin-top: 0.5rem;
+      font-size: 1.1rem;
+    }
+
+    /* Live News Section */
+    .news-section {
+      background: #065f46;
+      color: #fff;
+      padding: 15px;
+      overflow: hidden;
+      position: relative;
+      white-space: nowrap;
+    }
+
+    .news-header {
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    .news-ticker {
+      display: inline-block;
+      animation: scroll 20s linear infinite;
+      font-weight: bold;
+    }
+
+    @keyframes scroll {
+      from { transform: translateX(100%); }
+      to { transform: translateX(-100%); }
+    }
+
+    .news-ticker:hover {
+      animation-play-state: paused;
+    }
+
+    /* FAQ Section */
+    .faq-item {
+      background: #fff;
+      border-radius: 8px;
+      margin-bottom: 10px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+    }
+
+    .faq-question {
+      padding: 15px;
+      background: #065f46;
+      color: #fff;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background 0.3s;
+    }
+
+    .faq-question:hover {
+      background: #047857;
+    }
+
+    .faq-answer {
+      padding: 15px;
+      display: none;
+      background: #f8fafc;
+    }
+
+    footer {
+      background: #065f46;
+      color: #fff;
+      text-align: center;
+      padding: 20px;
+      margin-top: 40px;
+    }
+
+    @media (max-width: 600px) {
+      .hero-content h2 {
+        font-size: 22px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+  <div class="left">
+    <img src="ss.jpg" alt="Logo" />
+    <h1 id="title">Gram Shayak Portal</h1>
+  </div>
+  <div class="right">
+    <span id="tempInfo">☀️ 32°C | English</span>
+    <button class="btn" id="langToggle">हिंदी</button>
+    <button class="login-btn" id="loginBtn" onclick="window.location.href='admin.html'">Admin Register</button>
+  </div>
+</header>
+
+<section class="news-section">
+  <div class="news-header" id="newsHeader">📰 Latest News</div>
+  <div class="news-ticker" id="newsTicker">
+    • PM Gram Sadak Yojana Phase-IV launched for better rural connectivity. 
+    • Digital Gram Panchayat initiative expanding across all states by 2026. 
+    • National Rural Employment Guarantee updates announced for FY 2025-26.
+  </div>
+</section>
+
+<section class="hero">
+  <div id="map"></div>
+  <div class="hero-content">
+    <h2 id="heroTitle">Welcome to Village Panchayat Portal</h2>
+    <p id="heroSubtitle">Select your Panchayat below to view details.</p>
+
+    <div id="selectionBox" class="filters">
+      <select id="stateSelect"><option value="">Select State</option></select>
+      <select id="districtSelect" disabled><option value="">Select District</option></select>
+      <select id="blockSelect" disabled><option value="">Select Block</option></select>
+      <select id="gpSelect" disabled><option value="">Select Gram Panchayat</option></select>
+    </div>
+  </div>
+</section>
+
+<section class="services">
+  <div class="card"><a id="schemeLink" href="scheme.html">🏛 Government Schemes</a></div>
+  <div class="card"><a id="complaintLink" href="file.html">📋 File a Complaint</a></div>
+  <div class="card"><a id="noticeLink" href="notice.html">📢 Notices & Announcements</a></div>
+  <div class="card"><a id="transparencyLink" href="tlogin.html">🔍 Panchayat Transparency</a></div>
+  <div class="card"><a id="marketLink" href="markrtplace.html">🌾 Market Rates</a></div>
+  <div class="card"><a id="serviceLink" href="panchayat.html">💡 Village Services</a></div>
+</section>
+
+<section class="section faq">
+  <h2 id="faqHeader">Frequently Asked Questions</h2>
+
+  <div class="faq-item">
+    <div class="faq-question" id="q1">What is the purpose of the Gram Shayak Portal?</div>
+    <div class="faq-answer" id="a1">It helps citizens access panchayat-level data, lodge complaints, and track development schemes.</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-question" id="q2">How can I file a complaint?</div>
+    <div class="faq-answer" id="a2">Go to 'File a Complaint' section and fill in the details of your issue.</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-question" id="q3">Can I check government scheme eligibility here?</div>
+    <div class="faq-answer" id="a3">Yes, visit 'Government Schemes' to know the eligibility and benefits.</div>
+  </div>
+
+  <div class="faq-item">
+    <div class="faq-question" id="q4">Is this portal available in regional languages?</div>
+    <div class="faq-answer" id="a4">Yes, you can switch between English and Hindi anytime.</div>
+  </div>
+</section>
+
+<footer>
+  <p id="footerText">© 2025 Gram Shayak Portal. All Rights Reserved.</p>
+</footer>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+<script>
+  // Panchayat Data
+  const data = {
+    "Uttar Pradesh": {
+      "Lucknow": {
+        "Bakshi Ka Talab": ["Dahraura GP", "Itaunja GP"],
+        "Malihabad": ["Behta GP", "Chand Sarai GP"],
+        "kakori": ["dona","jehata"]
+      },
+      "Varanasi": {
+        "Sewapuri": ["Kaithi GP", "Shivpur GP"]
+      }
+    },
+    "Madhya Pradesh": {
+      "Bhopal": { "Phanda": ["Ratanpur GP", "Sankheda GP"] },
+      "Indore": { "Depalpur": ["Hatod GP", "Betma GP"] }
+    }
+  };
+
+  // Gram Panchayat Details (Head info + photo + coordinates)
+  const gpDetails = {
+    "Dahraura GP": {
+      coords: [26.95, 80.95],
+      head: "Ramesh Kumar Verma",
+      phone: "+91 9876543210",
+      email: "ramesh.dahraura@gov.in",
+      address: "Dahraura, Bakshi Ka Talab, Lucknow, Uttar Pradesh",
+      photo: "profile.jpg"
+    },
+    "Itaunja GP": {
+      coords: [27.02, 80.95],
+      head: "Anita Devi",
+      phone: "+91 9876501122",
+      email: "anita.itaunja@gov.in",
+      address: "Itaunja, Bakshi Ka Talab, Lucknow, Uttar Pradesh",
+      photo: "profile.jpg"
+    },
+    "Behta GP": {
+      coords: [26.85, 80.80],
+      head: "Rajesh Singh",
+      phone: "+91 9123456780",
+      email: "rajesh.behta@gov.in",
+      address: "Behta, Malihabad, Lucknow, Uttar Pradesh",
+      photo: "profile.jpg"
+    },
+    "Chand Sarai GP": {
+      coords: [26.90, 80.85],
+      head: "Pooja Yadav",
+      phone: "+91 9988776655",
+      email: "pooja.chandsarai@gov.in",
+      address: "Chand Sarai, Malihabad, Lucknow, Uttar Pradesh",
+      photo: "profile.jpg"
+    },
+    "dona": {
+      coords: [26.8237103,80.7150901,2857],
+      head: "anuj Yadav",
+      phone: "+91 9988776655",
+      email: "anuj.dona@gov.in",
+      address: "dona, kakori, Lucknow, Uttar Pradesh",
+      photo: "profile.jpg"
+    },
+       "jehata": {
+      coords: [26.9262129,80.804131,5914],
+      head: "Pooja singh",
+      phone: "+91 9988776655",
+      email: "pooja.chandsarai@gov.in",
+      address: "jehata, kakori, Lucknow, Uttar Pradesh",
+      photo: "profile.jpg"
+    },
+
+    "Kaithi GP": {
+      coords: [25.40, 82.90],
+      head: "Vikas Sharma",
+      phone: "+91 9811122233",
+      email: "vikas.kaithi@gov.in",
+      address: "Kaithi, Sewapuri, Varanasi, Uttar Pradesh",
+      photo: "profile.jpg"
+    },
+    "Shivpur GP": {
+      coords: [25.35, 82.95],
+      head: "Sunita Patel",
+      phone: "+91 9988771122",
+      email: "sunita.shivpur@gov.in",
+      address: "Shivpur, Sewapuri, Varanasi, Uttar Pradesh",
+      photo: "profile.jpg"
+    },
+    "Ratanpur GP": {
+      coords: [23.25, 77.42],
+      head: "Amit Tiwari",
+      phone: "+91 9810098100",
+      email: "amit.ratanpur@gov.in",
+      address: "Ratanpur, Phanda, Bhopal, Madhya Pradesh",
+      photo: "profile.jpg"
+    },
+    "Sankheda GP": {
+      coords: [23.28, 77.44],
+      head: "Neha Chauhan",
+      phone: "+91 9898989898",
+      email: "neha.sankheda@gov.in",
+      address: "Sankheda, Phanda, Bhopal, Madhya Pradesh",
+      photo: "profile.jpg"
+    },
+    "Hatod GP": {
+      coords: [22.82, 75.90],
+      head: "Suresh Jain",
+      phone: "+91 9812345678",
+      email: "suresh.hatod@gov.in",
+      address: "Hatod, Depalpur, Indore, Madhya Pradesh",
+      photo: "profile.jpg"
+    },
+    "Betma GP": {
+      coords: [22.75, 75.85],
+      head: "Kiran Singh",
+      phone: "+91 9898123456",
+      email: "kiran.betma@gov.in",
+      address: "Betma, Depalpur, Indore, Madhya Pradesh",
+      photo: "profile.jpg"
+    }
+  };
+
+  const stateSelect = document.getElementById("stateSelect");
+  const districtSelect = document.getElementById("districtSelect");
+  const blockSelect = document.getElementById("blockSelect");
+  const gpSelect = document.getElementById("gpSelect");
+
+  // Load States
+  Object.keys(data).forEach(state => {
+    const opt = document.createElement("option");
+    opt.value = state;
+    opt.textContent = state;
+    stateSelect.appendChild(opt);
+  });
+  // Cascading dropdowns
+  stateSelect.addEventListener("change", () => {
+    districtSelect.innerHTML = "<option value=''>Select District</option>";
+    blockSelect.innerHTML = "<option value=''>Select Block</option>";
+    gpSelect.innerHTML = "<option value=''>Select Gram Panchayat</option>";
+
+    if (stateSelect.value) {
+      const districts = Object.keys(data[stateSelect.value]);
+      districts.forEach(d => {
+        const opt = document.createElement("option");
+        opt.value = d;
+        opt.textContent = d;
+        districtSelect.appendChild(opt);
+      });
+      districtSelect.disabled = false;
+    }
+  });
+  districtSelect.addEventListener("change", () => {
+    blockSelect.innerHTML = "<option value=''>Select Block</option>";
+    gpSelect.innerHTML = "<option value=''>Select Gram Panchayat</option>";
+
+    if (districtSelect.value) {
+      const blocks = Object.keys(data[stateSelect.value][districtSelect.value]);
+      blocks.forEach(b => {
+        const opt = document.createElement("option");
+        opt.value = b;
+        opt.textContent = b;
+        blockSelect.appendChild(opt);
+      });
+      blockSelect.disabled = false;
+    }
+  });
+  blockSelect.addEventListener("change", () => {
+    gpSelect.innerHTML = "<option value=''>Select Gram Panchayat</option>";
+
+    if (blockSelect.value) {
+      const gps = data[stateSelect.value][districtSelect.value][blockSelect.value];
+      gps.forEach(gp => {
+        const opt = document.createElement("option");
+        opt.value = gp;
+        opt.textContent = gp;
+        gpSelect.appendChild(opt);
+      });
+      gpSelect.disabled = false;
+    }
+  });
+
+  // Leaflet Map Setup
+  const map = L.map("map", {
+    center: [22.9734, 78.6569],
+    zoom: 5
+  });
+
+  L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    maxZoom: 18,
+    attribution: "© OpenStreetMap"
+  }).addTo(map);
+
+  let marker;
+
+gpSelect.addEventListener("change", () => {
+  const gpName = gpSelect.value;
+  if (!gpName || !gpDetails[gpName]) return;
+
+  const { coords, head, phone, email, address, photo } = gpDetails[gpName];
+  if (marker) map.removeLayer(marker);
+  map.setView(coords, 10);
+
+  const popupHTML = `
+    <div style="text-align:center; font-family:Segoe UI;">
+      <img src="${photo}" alt="${head}" style="width:80px;height:80px;border-radius:50%;margin-bottom:8px;border:2px solid #065f46;">
+      <h3 style="margin:0;color:#065f46;">${gpName}</h3>
+      <p><b>Head:</b> ${head}</p>
+      <p>📞 ${phone}</p>
+      <p>✉️ ${email}</p>
+      <p>📍 ${address}</p>
+    </div>
+  `;
+
+  marker = L.marker(coords)
+    .addTo(map)
+    .bindPopup(popupHTML)
+    .openPopup();
+
+  // 🌿 Hide the entire hero-content (selection area) smoothly
+  const heroContent = document.querySelector(".hero-content");
+  heroContent.style.transition = "opacity 0.8s ease, transform 0.6s ease";
+  heroContent.style.opacity = "0";
+  heroContent.style.transform = "scale(0.95)";
+  setTimeout(() => (heroContent.style.display = "none"), 800);
+});
+
+
+  // FAQ Toggle
+  document.querySelectorAll(".faq-question").forEach(q => {
+    q.addEventListener("click", () => {
+      const answer = q.nextElementSibling;
+      answer.style.display = answer.style.display === "block" ? "none" : "block";
+    });
+  });
+
+  // Live News Ticker
+  const newsTicker = document.getElementById("newsTicker");
+  const newsList = [
+    "Village Development Fund increased by 15% this year.",
+    "New road construction project approved for rural areas.",
+    "Gram Sabha meeting scheduled for 10th October 2025.",
+    "Digital literacy drive launched in Panchayat schools.",
+    "Water conservation scheme inaugurated across 5 states."
+  ];
+  let index = 0;
+  setInterval(() => {
+    newsTicker.textContent = "📰 " + newsList[index];
+    index = (index + 1) % newsList.length;
+  }, 8000);
+
+  // Language Switcher
+// 🌍 Translations data
+// 🌍 Translations
+const translations = {
+  en: {
+    title: "Gram Shayak Portal",
+    tempInfo: "☀️ 32°C | English",
+    loginBtn: "Admin Register",
+    newsHeader: "📰 Latest News",
+    heroTitle: "Empowering Villages Through Digital Governance",
+    heroSubtitle: "Search schemes, track development, and access village data instantly.",
+    faqHeader: "Frequently Asked Questions",
+    footerText: "© 2025 Gram Shayak Portal. All Rights Reserved.",
+    schemeLink: "🏛 Government Schemes",
+    complaintLink: "📋 File a Complaint",
+    noticeLink: "📢 Notices & Announcements",
+    transparencyLink: "🔍 Panchayat Transparency",
+    marketLink: "🌾 Market Rates",
+    serviceLink: "💡 Village Services",
+    q1: "What is the purpose of the Gram Shayak Portal?",
+    a1: "It helps citizens access panchayat-level data, lodge complaints, and track development schemes.",
+    q2: "How can I file a complaint?",
+    a2: "Go to 'File a Complaint' section and fill in the details of your issue.",
+    q3: "Can I check government scheme eligibility here?",
+    a3: "Yes, visit 'Government Schemes' to know the eligibility and benefits.",
+    q4: "Is this portal available in regional languages?",
+    a4: "Yes, you can switch between English and Hindi anytime.",
+    selects: ["Select State", "Select District", "Select Block", "Select Gram Panchayat"]
+  },
+
+  hi: {
+    title: "ग्राम सहायक पोर्टल",
+    tempInfo: "☀️ 32°C | हिंदी",
+    loginBtn: "एडमिन रजिस्टर करें",
+    newsHeader: "📰 नवीनतम समाचार",
+    heroTitle: "डिजिटल शासन के माध्यम से गांवों को सशक्त बनाना",
+    heroSubtitle: "योजनाएं खोजें, विकास को ट्रैक करें और गांव का डेटा तुरंत प्राप्त करें।",
+    faqHeader: "अक्सर पूछे जाने वाले प्रश्न",
+    footerText: "© 2025 ग्राम सहायक पोर्टल। सर्वाधिकार सुरक्षित।",
+    schemeLink: "🏛 सरकारी योजनाएं",
+    complaintLink: "📋 शिकायत दर्ज करें",
+    noticeLink: "📢 सूचनाएं और घोषणाएं",
+    transparencyLink: "🔍 पंचायत पारदर्शिता",
+    marketLink: "🌾 बाजार दरें",
+    serviceLink: "💡 ग्राम सेवाएं",
+    q1: "ग्राम सहायक पोर्टल का उद्देश्य क्या है?",
+    a1: "यह नागरिकों को पंचायत स्तर की जानकारी प्राप्त करने, शिकायत दर्ज करने और योजनाओं की निगरानी करने में मदद करता है।",
+    q2: "मैं शिकायत कैसे दर्ज कर सकता हूँ?",
+    a2: "'शिकायत दर्ज करें' अनुभाग में जाकर अपनी समस्या का विवरण भरें।",
+    q3: "क्या मैं यहां सरकारी योजनाओं की पात्रता देख सकता हूँ?",
+    a3: "हाँ, 'सरकारी योजनाएं' अनुभाग में जाकर पात्रता और लाभ जानें।",
+    q4: "क्या यह पोर्टल क्षेत्रीय भाषाओं में उपलब्ध है?",
+    a4: "हाँ, आप कभी भी अंग्रेजी और हिंदी के बीच स्विच कर सकते हैं।",
+    selects: ["राज्य चुनें", "जिला चुनें", "ब्लॉक चुनें", "ग्राम पंचायत चुनें"]
+  }
+};
+
+// 🌐 Language Switch Logic
+let currentLang = "en";
+const ids = [
+  "title", "tempInfo", "loginBtn", "newsHeader", "heroTitle", "heroSubtitle",
+  "faqHeader", "footerText", "schemeLink", "complaintLink", "noticeLink",
+  "transparencyLink", "marketLink", "serviceLink",
+  "q1", "a1", "q2", "a2", "q3", "a3", "q4", "a4"
+];
+
+const langToggle = document.getElementById("langToggle");
+
+langToggle.addEventListener("click", () => {
+  currentLang = currentLang === "en" ? "hi" : "en";
+  const t = translations[currentLang];
+
+  ids.forEach(id => {
+    const el = document.getElementById(id);
+    if (el && t[id]) el.textContent = t[id];
+  });
+
+  const selects = [stateSelect, districtSelect, blockSelect, gpSelect];
+  if (t.selects) {
+    selects.forEach((sel, i) => {
+      if (sel?.options[0]) sel.options[0].text = t.selects[i];
+    });
+  }
+
+  langToggle.textContent = currentLang === "en" ? "हिंदी" : "English";
+});
+
+  // Pause news ticker animation on hover (example implementation)
+  let newsInterval;
+  newsTicker.addEventListener('mouseover', () => {
+    clearInterval(newsInterval);
+  });
+  newsTicker.addEventListener('mouseout', () => {
+    newsInterval = setInterval(() => {
+      newsTicker.textContent = "📰 " + newsList[index];
+      index = (index + 1) % newsList.length;
+    }, 8000);
+  });
+  // Start the interval initially
+  newsInterval = setInterval(() => {
+    newsTicker.textContent = "📰 " + newsList[index];
+    index = (index + 1) % newsList.length;
+  }, 8000);
+  </script>
+</body>
+</html>
